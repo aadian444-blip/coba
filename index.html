@@ -3,83 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Website - Pembelajaran & Hobi Menyelam</title>
+    <title>My Journey - Pembelajaran & Hobi Menyelam</title>
+    <meta name="description" content="Website personal tentang perjalanan pembelajaran dan hobi menyelam di perairan Indonesia.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .ocean-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #0891b2 50%, #06b6d4 100%); }
+
+        /* Hero dengan latar foto laut */
+        .hero-bg {
+            background:
+                linear-gradient(135deg, rgba(102,126,234,0.85) 0%, rgba(118,75,162,0.85) 100%),
+                url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .ocean-gradient {
-            background: linear-gradient(135deg, #1e3a8a 0%, #0891b2 50%, #06b6d4 100%);
-        }
-        .wave {
-            animation: wave 3s ease-in-out infinite;
-        }
+
+        .wave { animation: wave 3s ease-in-out infinite; }
         @keyframes wave {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
         }
-        .fade-in {
-            animation: fadeIn 1s ease-in;
+
+        /* Reveal saat scroll */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .hover-scale { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-scale:hover { transform: translateY(-6px) scale(1.02); }
+        .card-shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+        /* Navbar berubah saat di-scroll */
+        #navbar { transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; left: 0; bottom: -4px;
+            width: 0; height: 2px; background-color: #2563eb; transition: width 0.3s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: #2563eb; }
+
+        /* Tombol kembali ke atas */
+        #back-to-top {
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
         }
-        .hover-scale {
-            transition: transform 0.3s ease;
+        #back-to-top.show { opacity: 1; visibility: visible; }
+        #back-to-top:hover { transform: translateY(-4px); }
+
+        /* Galeri foto */
+        .gallery-item { position: relative; overflow: hidden; border-radius: 0.75rem; }
+        .gallery-item img { transition: transform 0.5s ease; width: 100%; height: 100%; object-fit: cover; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-overlay {
+            position: absolute; inset: 0; display: flex; align-items: flex-end;
+            padding: 1rem; color: #fff; font-weight: 600;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%);
+            opacity: 0; transition: opacity 0.3s ease;
         }
-        .hover-scale:hover {
-            transform: scale(1.05);
-        }
-        .card-shadow {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        /* Animasi progress bar */
+        .progress-fill { width: 0; transition: width 1.5s ease-in-out; }
     </style>
 </head>
 <body class="bg-gray-50">
 
     <!-- Navigation -->
-    <nav class="fixed w-full bg-white shadow-md z-50">
+    <nav id="navbar" class="fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-50">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                <h1 class="text-2xl font-bold text-blue-900">🌊 My Journey</h1>
+                <a href="#home" class="text-2xl font-bold text-blue-900 flex items-center gap-2">🌊 My Journey</a>
                 <div class="hidden md:flex space-x-8">
-                    <a href="#home" class="text-gray-700 hover:text-blue-600 transition">Beranda</a>
-                    <a href="#about" class="text-gray-700 hover:text-blue-600 transition">Tentang</a>
-                    <a href="#learning" class="text-gray-700 hover:text-blue-600 transition">Pembelajaran</a>
-                    <a href="#diving" class="text-gray-700 hover:text-blue-600 transition">Menyelam</a>
-                    <a href="#contact" class="text-gray-700 hover:text-blue-600 transition">Kontak</a>
+                    <a href="#home" class="nav-link text-gray-700 hover:text-blue-600 transition">Beranda</a>
+                    <a href="#about" class="nav-link text-gray-700 hover:text-blue-600 transition">Tentang</a>
+                    <a href="#learning" class="nav-link text-gray-700 hover:text-blue-600 transition">Pembelajaran</a>
+                    <a href="#diving" class="nav-link text-gray-700 hover:text-blue-600 transition">Menyelam</a>
+                    <a href="#gallery" class="nav-link text-gray-700 hover:text-blue-600 transition">Galeri</a>
+                    <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600 transition">Kontak</a>
                 </div>
-                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700" aria-label="Buka menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </div>
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 pb-2">
                 <a href="#home" class="block text-gray-700 hover:text-blue-600 transition">Beranda</a>
                 <a href="#about" class="block text-gray-700 hover:text-blue-600 transition">Tentang</a>
                 <a href="#learning" class="block text-gray-700 hover:text-blue-600 transition">Pembelajaran</a>
                 <a href="#diving" class="block text-gray-700 hover:text-blue-600 transition">Menyelam</a>
+                <a href="#gallery" class="block text-gray-700 hover:text-blue-600 transition">Galeri</a>
                 <a href="#contact" class="block text-gray-700 hover:text-blue-600 transition">Kontak</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="gradient-bg min-h-screen flex items-center justify-center pt-16">
-        <div class="container mx-auto px-6 text-center text-white fade-in">
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center pt-16">
+        <div class="container mx-auto px-6 text-center text-white">
             <div class="wave text-6xl mb-6">🌊</div>
-            <h1 class="text-5xl md:text-7xl font-bold mb-4">Selamat Datang</h1>
-            <p class="text-xl md:text-2xl mb-8 font-light">Jelajahi Dunia Pembelajaran & Keindahan Bawah Laut</p>
-            <div class="flex justify-center gap-4">
-                <a href="#learning" class="bg-white text-purple-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition hover-scale">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 drop-shadow-lg">Selamat Datang</h1>
+            <p class="text-xl md:text-2xl mb-8 font-light drop-shadow">Jelajahi Dunia Pembelajaran &amp; Keindahan Bawah Laut</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#learning" class="bg-white text-purple-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition hover-scale shadow-lg">
                     📚 Pembelajaran
                 </a>
                 <a href="#diving" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-700 transition hover-scale">
@@ -92,19 +123,17 @@
     <!-- About Section -->
     <section id="about" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Tentang Saya</h2>
-            <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 reveal">Tentang Saya</h2>
+            <div class="max-w-4xl mx-auto reveal">
                 <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 card-shadow">
                     <div class="flex flex-col md:flex-row items-center gap-8">
-                        <div class="w-48 h-48 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full flex items-center justify-center text-6xl">
-                            👤
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=400&q=80"
+                             alt="Foto penyelam" class="w-48 h-48 rounded-full object-cover shadow-lg">
                         <div class="flex-1 text-center md:text-left">
                             <h3 class="text-3xl font-bold text-gray-800 mb-4">Halo! 👋</h3>
                             <p class="text-gray-700 text-lg leading-relaxed mb-4">
-                                Saya adalah seorang yang passionate terhadap pembelajaran berkelanjutan dan petualangan bawah laut.
-                                Kombinasi antara pengembangan diri dan eksplorasi dunia bawah laut memberikan saya perspektif unik
-                                tentang kehidupan.
+                                Saya adalah seorang yang <strong>passionate</strong> terhadap pembelajaran berkelanjutan dan petualangan bawah laut.
+                                Kombinasi antara pengembangan diri dan eksplorasi dunia bawah laut memberikan saya perspektif unik tentang kehidupan.
                             </p>
                             <p class="text-gray-700 text-lg leading-relaxed">
                                 Melalui website ini, saya ingin berbagi pengalaman, pengetahuan, dan keindahan yang saya temukan
@@ -120,12 +149,11 @@
     <!-- Learning Section -->
     <section id="learning" class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-gray-800 mb-4">📚 Pembelajaran</h2>
-            <p class="text-center text-gray-600 mb-12 text-lg">Perjalanan Belajar & Pengembangan Diri</p>
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-4 reveal">📚 Pembelajaran</h2>
+            <p class="text-center text-gray-600 mb-12 text-lg reveal">Perjalanan Belajar &amp; Pengembangan Diri</p>
 
             <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <!-- Learning Card 1 -->
-                <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+                <div class="bg-white rounded-xl p-6 card-shadow hover-scale reveal">
                     <div class="text-5xl mb-4">💻</div>
                     <h3 class="text-2xl font-bold text-gray-800 mb-3">Teknologi</h3>
                     <p class="text-gray-600 leading-relaxed">
@@ -139,8 +167,7 @@
                     </div>
                 </div>
 
-                <!-- Learning Card 2 -->
-                <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+                <div class="bg-white rounded-xl p-6 card-shadow hover-scale reveal">
                     <div class="text-5xl mb-4">📖</div>
                     <h3 class="text-2xl font-bold text-gray-800 mb-3">Literasi</h3>
                     <p class="text-gray-600 leading-relaxed">
@@ -154,8 +181,7 @@
                     </div>
                 </div>
 
-                <!-- Learning Card 3 -->
-                <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+                <div class="bg-white rounded-xl p-6 card-shadow hover-scale reveal">
                     <div class="text-5xl mb-4">🎯</div>
                     <h3 class="text-2xl font-bold text-gray-800 mb-3">Skill Development</h3>
                     <p class="text-gray-600 leading-relaxed">
@@ -170,16 +196,16 @@
             </div>
 
             <!-- Learning Progress -->
-            <div class="mt-16 max-w-4xl mx-auto bg-white rounded-xl p-8 card-shadow">
+            <div class="mt-16 max-w-4xl mx-auto bg-white rounded-xl p-8 card-shadow reveal">
                 <h3 class="text-2xl font-bold text-gray-800 mb-6">Progres Pembelajaran Saat Ini</h3>
-                <div class="space-y-4">
+                <div class="space-y-5">
                     <div>
                         <div class="flex justify-between mb-2">
                             <span class="font-semibold text-gray-700">Web Development</span>
                             <span class="text-gray-600">85%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-blue-600 h-3 rounded-full" style="width: 85%"></div>
+                            <div class="progress-fill bg-blue-600 h-3 rounded-full" data-width="85%"></div>
                         </div>
                     </div>
                     <div>
@@ -188,7 +214,7 @@
                             <span class="text-gray-600">60%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-green-600 h-3 rounded-full" style="width: 60%"></div>
+                            <div class="progress-fill bg-green-600 h-3 rounded-full" data-width="60%"></div>
                         </div>
                     </div>
                     <div>
@@ -197,7 +223,7 @@
                             <span class="text-gray-600">70%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-purple-600 h-3 rounded-full" style="width: 70%"></div>
+                            <div class="progress-fill bg-purple-600 h-3 rounded-full" data-width="70%"></div>
                         </div>
                     </div>
                 </div>
@@ -208,24 +234,24 @@
     <!-- Diving Section -->
     <section id="diving" class="ocean-gradient py-20 text-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-4">🤿 Hobi Menyelam</h2>
-            <p class="text-center text-blue-100 mb-12 text-lg">Eksplorasi Keindahan Dunia Bawah Laut</p>
+            <h2 class="text-4xl font-bold text-center mb-4 reveal">🤿 Hobi Menyelam</h2>
+            <p class="text-center text-blue-100 mb-12 text-lg reveal">Eksplorasi Keindahan Dunia Bawah Laut</p>
 
             <!-- Diving Stats -->
-            <div class="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover-scale">
-                    <div class="text-4xl font-bold mb-2">50+</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover-scale reveal">
+                    <div class="text-4xl font-bold mb-2 counter" data-target="50" data-suffix="+">0</div>
                     <div class="text-blue-100">Total Dives</div>
                 </div>
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover-scale">
-                    <div class="text-4xl font-bold mb-2">30m</div>
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover-scale reveal">
+                    <div class="text-4xl font-bold mb-2 counter" data-target="30" data-suffix="m">0</div>
                     <div class="text-blue-100">Max Depth</div>
                 </div>
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover-scale">
-                    <div class="text-4xl font-bold mb-2">15+</div>
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover-scale reveal">
+                    <div class="text-4xl font-bold mb-2 counter" data-target="15" data-suffix="+">0</div>
                     <div class="text-blue-100">Dive Sites</div>
                 </div>
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover-scale">
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover-scale reveal">
                     <div class="text-4xl font-bold mb-2">AOW</div>
                     <div class="text-blue-100">Certification</div>
                 </div>
@@ -233,7 +259,7 @@
 
             <!-- Diving Experience -->
             <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-8">
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-8 reveal">
                     <h3 class="text-2xl font-bold mb-4">🐠 Spot Diving Favorit</h3>
                     <ul class="space-y-3">
                         <li class="flex items-start">
@@ -267,39 +293,21 @@
                     </ul>
                 </div>
 
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-8">
+                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-8 reveal">
                     <h3 class="text-2xl font-bold mb-4">🐢 Marine Life Encounters</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white/10 rounded-lg p-4 text-center">
-                            <div class="text-4xl mb-2">🦈</div>
-                            <div class="font-semibold">Reef Shark</div>
-                        </div>
-                        <div class="bg-white/10 rounded-lg p-4 text-center">
-                            <div class="text-4xl mb-2">🐢</div>
-                            <div class="font-semibold">Sea Turtle</div>
-                        </div>
-                        <div class="bg-white/10 rounded-lg p-4 text-center">
-                            <div class="text-4xl mb-2">🐙</div>
-                            <div class="font-semibold">Octopus</div>
-                        </div>
-                        <div class="bg-white/10 rounded-lg p-4 text-center">
-                            <div class="text-4xl mb-2">🦑</div>
-                            <div class="font-semibold">Cuttlefish</div>
-                        </div>
-                        <div class="bg-white/10 rounded-lg p-4 text-center">
-                            <div class="text-4xl mb-2">🐠</div>
-                            <div class="font-semibold">Tropical Fish</div>
-                        </div>
-                        <div class="bg-white/10 rounded-lg p-4 text-center">
-                            <div class="text-4xl mb-2">🦀</div>
-                            <div class="font-semibold">Crustaceans</div>
-                        </div>
+                        <div class="bg-white/10 rounded-lg p-4 text-center"><div class="text-4xl mb-2">🦈</div><div class="font-semibold">Reef Shark</div></div>
+                        <div class="bg-white/10 rounded-lg p-4 text-center"><div class="text-4xl mb-2">🐢</div><div class="font-semibold">Sea Turtle</div></div>
+                        <div class="bg-white/10 rounded-lg p-4 text-center"><div class="text-4xl mb-2">🐙</div><div class="font-semibold">Octopus</div></div>
+                        <div class="bg-white/10 rounded-lg p-4 text-center"><div class="text-4xl mb-2">🦑</div><div class="font-semibold">Cuttlefish</div></div>
+                        <div class="bg-white/10 rounded-lg p-4 text-center"><div class="text-4xl mb-2">🐠</div><div class="font-semibold">Tropical Fish</div></div>
+                        <div class="bg-white/10 rounded-lg p-4 text-center"><div class="text-4xl mb-2">🦀</div><div class="font-semibold">Crustaceans</div></div>
                     </div>
                 </div>
             </div>
 
             <!-- Diving Philosophy -->
-            <div class="mt-16 max-w-4xl mx-auto bg-white/10 backdrop-blur-lg rounded-xl p-8 text-center">
+            <div class="mt-16 max-w-4xl mx-auto bg-white/10 backdrop-blur-lg rounded-xl p-8 text-center reveal">
                 <h3 class="text-2xl font-bold mb-4">🌊 Filosofi Menyelam</h3>
                 <p class="text-lg text-blue-100 leading-relaxed">
                     "Menyelam bukan hanya tentang menjelajahi kedalaman laut, tetapi juga tentang menemukan kedamaian dalam diri.
@@ -316,29 +324,35 @@
     </section>
 
     <!-- Gallery Section -->
-    <section class="py-20 bg-white">
+    <section id="gallery" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-gray-800 mb-4">📸 Galeri</h2>
-            <p class="text-center text-gray-600 mb-12 text-lg">Momen-momen Pembelajaran & Penyelaman</p>
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-4 reveal">📸 Galeri</h2>
+            <p class="text-center text-gray-600 mb-12 text-lg reveal">Momen-momen Pembelajaran &amp; Penyelaman</p>
 
-            <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                <div class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl h-64 flex items-center justify-center text-white text-6xl hover-scale cursor-pointer">
-                    🌊
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div class="gallery-item h-64 card-shadow reveal">
+                    <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?auto=format&fit=crop&w=600&q=80" alt="Terumbu karang">
+                    <div class="gallery-overlay">Terumbu Karang</div>
                 </div>
-                <div class="bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl h-64 flex items-center justify-center text-white text-6xl hover-scale cursor-pointer">
-                    📚
+                <div class="gallery-item h-64 card-shadow reveal">
+                    <img src="https://images.unsplash.com/photo-1602002418082-a4443e081dd1?auto=format&fit=crop&w=600&q=80" alt="Penyu laut">
+                    <div class="gallery-overlay">Penyu Laut</div>
                 </div>
-                <div class="bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl h-64 flex items-center justify-center text-white text-6xl hover-scale cursor-pointer">
-                    🤿
+                <div class="gallery-item h-64 card-shadow reveal">
+                    <img src="https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&w=600&q=80" alt="Penyelam scuba">
+                    <div class="gallery-overlay">Scuba Diving</div>
                 </div>
-                <div class="bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-xl h-64 flex items-center justify-center text-white text-6xl hover-scale cursor-pointer">
-                    💻
+                <div class="gallery-item h-64 card-shadow reveal">
+                    <img src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?auto=format&fit=crop&w=600&q=80" alt="Membaca dan belajar">
+                    <div class="gallery-overlay">Belajar &amp; Eksplorasi</div>
                 </div>
-                <div class="bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-xl h-64 flex items-center justify-center text-white text-6xl hover-scale cursor-pointer">
-                    🐠
+                <div class="gallery-item h-64 card-shadow reveal">
+                    <img src="https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=600&q=80" alt="Ikan tropis">
+                    <div class="gallery-overlay">Ikan Tropis</div>
                 </div>
-                <div class="bg-gradient-to-br from-violet-400 to-violet-600 rounded-xl h-64 flex items-center justify-center text-white text-6xl hover-scale cursor-pointer">
-                    🎯
+                <div class="gallery-item h-64 card-shadow reveal">
+                    <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=80" alt="Pemandangan laut">
+                    <div class="gallery-overlay">Lautan Biru</div>
                 </div>
             </div>
         </div>
@@ -347,36 +361,37 @@
     <!-- Contact Section -->
     <section id="contact" class="gradient-bg py-20 text-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-4">📬 Hubungi Saya</h2>
-            <p class="text-center text-purple-100 mb-12 text-lg">Mari Terhubung & Berbagi Pengalaman</p>
+            <h2 class="text-4xl font-bold text-center mb-4 reveal">📬 Hubungi Saya</h2>
+            <p class="text-center text-purple-100 mb-12 text-lg reveal">Mari Terhubung &amp; Berbagi Pengalaman</p>
 
-            <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-lg rounded-xl p-8">
-                <form class="space-y-6">
+            <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-lg rounded-xl p-8 reveal">
+                <form id="contact-form" class="space-y-6" novalidate>
                     <div>
-                        <label class="block mb-2 font-semibold">Nama</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/60" placeholder="Nama Anda">
+                        <label class="block mb-2 font-semibold" for="name">Nama</label>
+                        <input id="name" type="text" required class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/60" placeholder="Nama Anda">
                     </div>
                     <div>
-                        <label class="block mb-2 font-semibold">Email</label>
-                        <input type="email" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/60" placeholder="email@example.com">
+                        <label class="block mb-2 font-semibold" for="email">Email</label>
+                        <input id="email" type="email" required class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/60" placeholder="email@example.com">
                     </div>
                     <div>
-                        <label class="block mb-2 font-semibold">Pesan</label>
-                        <textarea rows="4" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/60" placeholder="Tulis pesan Anda..."></textarea>
+                        <label class="block mb-2 font-semibold" for="message">Pesan</label>
+                        <textarea id="message" rows="4" required class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-white placeholder-white/60" placeholder="Tulis pesan Anda..."></textarea>
                     </div>
                     <button type="submit" class="w-full bg-white text-purple-700 py-3 rounded-lg font-bold hover:bg-gray-100 transition hover-scale">
                         Kirim Pesan 📨
                     </button>
+                    <p id="form-status" class="text-center text-sm hidden"></p>
                 </form>
 
                 <div class="mt-8 flex justify-center gap-6">
-                    <a href="#" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
+                    <a href="#" aria-label="Facebook" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     </a>
-                    <a href="#" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
+                    <a href="#" aria-label="Instagram" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </a>
-                    <a href="#" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
+                    <a href="#" aria-label="Twitter" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
                     </a>
                 </div>
@@ -387,61 +402,118 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-8">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-400">© 2024 Personal Website - Pembelajaran & Hobi Menyelam</p>
-            <p class="text-gray-500 mt-2">Made with ❤️ and passion for learning & diving</p>
+            <p class="text-gray-400">© 2026 My Journey - Pembelajaran &amp; Hobi Menyelam</p>
+            <p class="text-gray-500 mt-2">Made with ❤️ and passion for learning &amp; diving</p>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Kembali ke atas"
+            class="fixed bottom-8 right-8 z-50 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
 
     <!-- JavaScript -->
     <script>
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        // Tutup menu mobile saat link diklik
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
         });
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Close mobile menu if open
-                    mobileMenu.classList.add('hidden');
-                }
-            });
+        // Navbar berubah & tombol back-to-top muncul saat scroll
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                backToTop.classList.add('show');
+            } else {
+                navbar.classList.remove('shadow-lg');
+                backToTop.classList.remove('show');
+            }
         });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // Form submission
-        const form = document.querySelector('form');
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Terima kasih! Pesan Anda telah terkirim. 📬');
-            form.reset();
-        });
-
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
+        // Reveal saat scroll
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
+        // Animasi progress bar saat terlihat
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.width = entry.target.dataset.width;
+                    progressObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.progress-fill').forEach(el => progressObserver.observe(el));
+
+        // Animasi penghitung angka statistik
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const target = parseInt(el.dataset.target, 10);
+                const suffix = el.dataset.suffix || '';
+                let current = 0;
+                const step = Math.max(1, Math.ceil(target / 40));
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) { current = target; clearInterval(timer); }
+                    el.textContent = current + suffix;
+                }, 30);
+                counterObserver.unobserve(el);
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+        // Highlight menu navigasi aktif
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        sections.forEach(section => navObserver.observe(section));
+
+        // Validasi & feedback form kontak
+        const form = document.getElementById('contact-form');
+        const formStatus = document.getElementById('form-status');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            formStatus.classList.remove('hidden');
+            if (!name || !email || !message) {
+                formStatus.textContent = '⚠️ Mohon lengkapi semua kolom.';
+                formStatus.className = 'text-center text-sm text-yellow-200';
+                return;
+            }
+            formStatus.textContent = '✅ Terima kasih, ' + name + '! Pesan Anda telah terkirim.';
+            formStatus.className = 'text-center text-sm text-green-200';
+            form.reset();
         });
     </script>
 
